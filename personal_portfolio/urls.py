@@ -22,7 +22,7 @@ from PortfolioApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name="index"),
+    path('', views.Index.as_view(), name="index"),
     path('blog/', include('BlogApp.urls')),
 ]
 
