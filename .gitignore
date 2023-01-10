@@ -4,8 +4,9 @@
 *.pyc
 __pycache__
 
-
-# Backup files # 
+.media/
+.personal_portfolio/settings.py
+# Backup files #
 *.bak 
 
 # If you are using PyCharm # 
