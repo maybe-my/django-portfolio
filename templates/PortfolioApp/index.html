@@ -88,23 +88,25 @@
                     </div>
                 </div>
             </section>
-            <section class="main__body" id="tech_stack">
-                <div class="main__body__title">My Tech Stack</div>
-                <div class="main__body__subtitle">
-                    Technologies I work with
-                </div>
-                <div class="main__body__tech-stack">
-                    <ul class="main__body__list">
-                        {% for lang in langs %}
-                            {% if lang.icon_svg %}
-                                <li class="main__body__item">
-                                    {{ lang.icon_svg|safe }}
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            </section>
+            {% if langs.count >= 1 %}
+                <section class="main__body" id="tech_stack">
+                    <div class="main__body__title">My Tech Stack</div>
+                    <div class="main__body__subtitle">
+                        Technologies I work with
+                    </div>
+                    <div class="main__body__tech-stack">
+                        <ul class="main__body__list">
+                            {% for lang in langs %}
+                                {% if lang.icon_svg %}
+                                    <li class="main__body__item">
+                                        {{ lang.icon_svg|safe }}
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </section>
+            {% endif %}
             {% if projects.count >= 1 %}
                 <section class="main__bottom" id="projects">
                     <p class="main__bottom-title">Projects list</p>
