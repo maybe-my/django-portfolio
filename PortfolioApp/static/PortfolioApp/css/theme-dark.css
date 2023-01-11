@@ -1,0 +1,104 @@
+body {
+  background-color: #191919;
+}
+
+.header__item-a {
+  color: #A7A7A7;
+}
+
+.dark-color-icon {
+  fill: #A7A7A7;
+}
+
+.dark-color-icon path {
+  fill: #A7A7A7;
+}
+
+.main__top--text {
+  color: #d9d9d9;
+}
+
+.main__body__title {
+  color: #d9d9d9;
+}
+
+.main__body__subtitle {
+  color: #a7a7a7;
+}
+
+.main__bottom-title {
+  color: #d9d9d9;
+}
+
+.main__contact-title-dark {
+  color: #d9d9d9;
+}
+
+.main__bottom-subtitle {
+  color: #a7a7a7;
+}
+
+.main__bottom-text-title {
+  color: #cccccc;
+}
+
+.main__bottom-text-subtitle {
+  color: #cccccc;
+}
+
+.main__bottom-text-tech-stack {
+  color: #cccccc;
+}
+
+.main__bottom-text-tech-stack--span {
+  color: #cccccc;
+}
+
+.main__bottom-first-link {
+  color: #fff;
+}
+
+.main__bottom-second-link {
+  color: #fff;
+}
+
+.footer__top--contacts-phone {
+  color: #d9d9d9;
+}
+
+.footer__top--contacts-email {
+  color: #d9d9d9;
+}
+
+.footer__central-line {
+  border: 2px solid #d9d9d9;
+}
+
+.footer__bottom__item-a {
+  color: #d9d9d9;
+}
+
+.footer__bottom__about {
+  color: #d9d9d9;
+}
+
+.dark-git-icon {
+  fill: #FFFEFE;
+}
+
+.main__bottom--project {
+  background: #363636;
+}
+
+.dark-background path {
+  stroke: #FCFCFC;
+}
+
+.dark-background-color path {
+  fill: #FCFCFC;
+}
+
+.footer__top--contacts-phone-dark {
+  color: #A7A7A7;
+}
+
