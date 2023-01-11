@@ -1,11 +1,10 @@
-from django.contrib import admin
-from django.utils.safestring import mark_safe
-
 from .models import Project, TechStack
+from import_export.admin import ImportExportModelAdmin
+from django.contrib import admin
 
 
 @admin.register(Project)
-class AuthorAdmin(admin.ModelAdmin):
+class AuthorAdmin(ImportExportModelAdmin):
     list_display = ('id', 'title', 'url', 'created_at')
     list_filter = ('created_at',)
     list_display_links = ('id', 'title',)
@@ -15,5 +14,5 @@ class AuthorAdmin(admin.ModelAdmin):
 
 
 @admin.register(TechStack)
-class AuthorAdmin(admin.ModelAdmin):
+class AuthorAdmin(ImportExportModelAdmin):
     list_display = ('title', 'created_at')
