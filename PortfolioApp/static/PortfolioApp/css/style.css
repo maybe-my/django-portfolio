@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: "Poppins";
     font-weight: 300;
@@ -86,22 +87,22 @@ html {
 
 /* ----------------------------------------------------------------------- */
 
-.header {
-    margin: 41px 0 220px;
+.header { 
+    width: 100%;
+    justify-content: center;
+    position: fixed;
 }
 
 .header__container {
-    max-width: 1230px;
-    padding: 0 15px;
+    height: 91px;
+    padding: 0 50px;
     margin: 0 auto;
-    max-height: 59px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .header__a-logo {
-    margin-right: 250px;
     transition: .3s all;
 }
 
@@ -140,6 +141,7 @@ html {
 
 /* --------header----------------------------------- */
 
+
 .main__container {
     max-width: 1230px;
     padding: 0 15px;
@@ -147,6 +149,13 @@ html {
 }
 
 .main__top {
+    display: flex;
+    height: 889px;
+    justify-content: center;
+}
+
+.main__top__content {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -198,7 +207,6 @@ html {
 
 .main__body {
     padding-top: 200px;
-    margin-top: 150px;
     display: flex;
     flex-direction: column;
 }
@@ -495,11 +503,7 @@ html {
 
 /* Theme switch */
 .theme {
-    position: fixed;
     cursor: pointer;
-    top: 30px;
-    left: 15px;
-    padding: 10px;
     border-radius: 10px;
 }
 
@@ -648,7 +652,7 @@ html {
         font-size: 40px;
     }
 
-    .main__top {
+    .main__top__content {
         flex-direction: column;
         align-items: center;
     }
@@ -679,11 +683,11 @@ html {
     }
 
     .main__contact-title {
-        font-size: 42px;
+        font-size: 35px;
     }
 
     .main__contact-subtitle {
-        font-size: 36px;
+        font-size: 30px;
     }
 
     .footer__top--active {
