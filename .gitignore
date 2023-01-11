@@ -5,6 +5,7 @@
 __pycache__
 
 .media/
+media/
 personal_portfolio/settings.py
 # Backup files #
 *.bak 
