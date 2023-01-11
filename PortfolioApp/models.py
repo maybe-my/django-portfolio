@@ -4,6 +4,7 @@ from django.db import models
 class TechStack(models.Model):
     title = models.CharField(max_length=15, blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    icon_svg = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -27,5 +28,3 @@ class Project(models.Model):
     class Meta:
         verbose_name = "Проект"
         verbose_name_plural = "Проекты"
-
-
