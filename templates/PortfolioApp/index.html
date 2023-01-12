@@ -37,6 +37,11 @@
                         <li class="header__item">
                             <a class="header__item-a a4" href="#contact">Contact</a>
                         </li>
+                        {% if user.is_superuser %}
+                            <li class="header__item">
+                                <a class="header__item-a a4 top--text__style" href="{% url 'admin:index' %}">AdminPanel</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </nav>
 
