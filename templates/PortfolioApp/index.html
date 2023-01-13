@@ -1,256 +1,275 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'PortfolioApp/css/reset.css' %}" />
-    <link rel="stylesheet" href="{% static 'PortfolioApp/css/style.css' %}" />
-    <link rel="stylesheet" title="theme" href="" />
-    <title>Portfolio</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="{% static 'PortfolioApp/css/reset.css' %}"/>
+    <link rel="stylesheet" href="{% static 'PortfolioApp/css/style.css' %}"/>
+    <link rel="stylesheet" title="theme" href=""/>
+    <title>{% trans 'Portfolio' %}</title>
 </head>
 
 <body>
+<div class="wrapper">
+    <header class="header" id="header_top">
+        <a class="burger" href="#" onclick="return false">
+            <span class="burger-span"></span>
+        </a>
+        <div class="header__container">
 
-    <div class="wrapper">
-        <header class="header" id="header_top">
-            <a class="burger" href="#" onclick="return false">
-                <span class="burger-span"></span>
-            </a>
-            <div class="header__container">
+            <a class="header__a-logo" href="index.html"><img class=""
+                                                             src="{% static 'PortfolioApp/img/head/logo.svg' %}"/></a>
+            <nav class="header__navigation">
+                <ul class="header__list">
+                    <li class="header__item">
+                        <a class="header__item-a a1" href="#main_top">{% trans 'Home' %}</a>
+                    </li>
+                    <li class="header__item">
+                        <a class="header__item-a a2" href="#tech_stack">{% trans 'Tech Stack' %}</a>
+                    </li>
+                    <li class="header__item">
+                        <a class="header__item-a a3" href="#projects">{% trans 'Projects' %}</a>
+                    </li>
+                    <li class="header__item">
+                        <a class="header__item-a a4" href="#contact">{% trans 'Contact' %}</a>
+                    </li>
+                    <li class="header__item">
+                        <form class="" action="{% url 'set_language' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ redirect_to }}">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                {% if language.code != LANGUAGE_CODE %}
+                                    <input type="hidden" name="language" value="{{ language.code }}">
+                                    <input class="header__item-a a4 top--text__style" type="submit"
+                                           value="{{ language.name_local }}">
+                                {% endif %}
+                            {% endfor %}
 
-                <a class="header__a-logo" href="index.html"><img class=""
-                        src="{% static 'PortfolioApp/img/head/logo.svg' %}" /></a>
-                <nav class="header__navigation">
-                    <ul class="header__list">
+                        </form>
+                    </li>
+                    {% if user.is_superuser %}
                         <li class="header__item">
-                            <a class="header__item-a a1" href="#main_top">Home</a>
+                            <a class="header__item-a a4 top--text__style"
+                               href="{% url 'admin:index' %}">{% trans 'AdminPanel' %}</a>
                         </li>
-                        <li class="header__item">
-                            <a class="header__item-a a2" href="#tech_stack">Tech Stack</a>
-                        </li>
-                        <li class="header__item">
-                            <a class="header__item-a a3" href="#projects">Projects</a>
-                        </li>
-                        <li class="header__item">
-                            <a class="header__item-a a4" href="#contact">Contact</a>
-                        </li>
-                        {% if user.is_superuser %}
-                            <li class="header__item">
-                                <a class="header__item-a a4 top--text__style" href="{% url 'admin:index' %}">AdminPanel</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
+                    {% endif %}
+                </ul>
+            </nav>
 
-                <div class="header__group-icon">
-                    <a class="header__group-icon__a" href="https://github.com/maybe-my">
-                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path class="dark-color-icon" fill-rule="evenodd" clip-rule="evenodd"
-                                d="M15 0C6.7125 0 0 6.7125 0 15C0 21.6375 4.29375 27.2437 10.2563 29.2313C11.0063 29.3625 11.2875 28.9125 11.2875 28.5188C11.2875 28.1625 11.2688 26.9813 11.2688 25.725C7.5 26.4188 6.525 24.8062 6.225 23.9625C6.05625 23.5312 5.325 22.2 4.6875 21.8438C4.1625 21.5625 3.4125 20.8687 4.66875 20.85C5.85 20.8313 6.69375 21.9375 6.975 22.3875C8.325 24.6562 10.4812 24.0187 11.3438 23.625C11.475 22.65 11.8688 21.9937 12.3 21.6187C8.9625 21.2437 5.475 19.95 5.475 14.2125C5.475 12.5813 6.05625 11.2313 7.0125 10.1813C6.8625 9.80625 6.3375 8.26875 7.1625 6.20625C7.1625 6.20625 8.41875 5.8125 11.2875 7.74375C12.4875 7.40625 13.7625 7.2375 15.0375 7.2375C16.3125 7.2375 17.5875 7.40625 18.7875 7.74375C21.6562 5.79375 22.9125 6.20625 22.9125 6.20625C23.7375 8.26875 23.2125 9.80625 23.0625 10.1813C24.0188 11.2313 24.6 12.5625 24.6 14.2125C24.6 19.9688 21.0938 21.2437 17.7563 21.6187C18.3 22.0875 18.7688 22.9875 18.7688 24.3937C18.7688 26.4 18.75 28.0125 18.75 28.5188C18.75 28.9125 19.0312 29.3813 19.7812 29.2313C22.759 28.2259 25.3465 26.3121 27.1796 23.7592C29.0127 21.2063 29.9991 18.1429 30 15C30 6.7125 23.2875 0 15 0Z"
-                                fill="#666666" />
-                        </svg>
-                    </a>
-                    <a class="header__group-icon__a" href="https://t.me/super_userz ">
-                        <svg width="30" height="30" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                            <path class="dark-color-icon" fill="#666666"
-                                d="M16 0.5c-8.563 0-15.5 6.938-15.5 15.5s6.938 15.5 15.5 15.5c8.563 0 15.5-6.938 15.5-15.5s-6.938-15.5-15.5-15.5zM23.613 11.119l-2.544 11.988c-0.188 0.85-0.694 1.056-1.4 0.656l-3.875-2.856-1.869 1.8c-0.206 0.206-0.381 0.381-0.781 0.381l0.275-3.944 7.181-6.488c0.313-0.275-0.069-0.431-0.482-0.156l-8.875 5.587-3.825-1.194c-0.831-0.262-0.85-0.831 0.175-1.231l14.944-5.763c0.694-0.25 1.3 0.169 1.075 1.219z" />
-                        </svg>
-                    </a>
-                    <div class="theme">
-
-                        <svg class="changeTheme" data-theme="light" style="display: none"  width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
+            <div class="header__group-icon">
+                <a class="header__group-icon__a" href="https://github.com/maybe-my">
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="dark-color-icon" fill-rule="evenodd" clip-rule="evenodd"
+                              d="M15 0C6.7125 0 0 6.7125 0 15C0 21.6375 4.29375 27.2437 10.2563 29.2313C11.0063 29.3625 11.2875 28.9125 11.2875 28.5188C11.2875 28.1625 11.2688 26.9813 11.2688 25.725C7.5 26.4188 6.525 24.8062 6.225 23.9625C6.05625 23.5312 5.325 22.2 4.6875 21.8438C4.1625 21.5625 3.4125 20.8687 4.66875 20.85C5.85 20.8313 6.69375 21.9375 6.975 22.3875C8.325 24.6562 10.4812 24.0187 11.3438 23.625C11.475 22.65 11.8688 21.9937 12.3 21.6187C8.9625 21.2437 5.475 19.95 5.475 14.2125C5.475 12.5813 6.05625 11.2313 7.0125 10.1813C6.8625 9.80625 6.3375 8.26875 7.1625 6.20625C7.1625 6.20625 8.41875 5.8125 11.2875 7.74375C12.4875 7.40625 13.7625 7.2375 15.0375 7.2375C16.3125 7.2375 17.5875 7.40625 18.7875 7.74375C21.6562 5.79375 22.9125 6.20625 22.9125 6.20625C23.7375 8.26875 23.2125 9.80625 23.0625 10.1813C24.0188 11.2313 24.6 12.5625 24.6 14.2125C24.6 19.9688 21.0938 21.2437 17.7563 21.6187C18.3 22.0875 18.7688 22.9875 18.7688 24.3937C18.7688 26.4 18.75 28.0125 18.75 28.5188C18.75 28.9125 19.0312 29.3813 19.7812 29.2313C22.759 28.2259 25.3465 26.3121 27.1796 23.7592C29.0127 21.2063 29.9991 18.1429 30 15C30 6.7125 23.2875 0 15 0Z"
+                              fill="#666666"/>
+                    </svg>
+                </a>
+                <a class="header__group-icon__a" href="https://t.me/super_userz ">
+                    <svg width="30" height="30" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                        <path class="dark-color-icon" fill="#666666"
+                              d="M16 0.5c-8.563 0-15.5 6.938-15.5 15.5s6.938 15.5 15.5 15.5c8.563 0 15.5-6.938 15.5-15.5s-6.938-15.5-15.5-15.5zM23.613 11.119l-2.544 11.988c-0.188 0.85-0.694 1.056-1.4 0.656l-3.875-2.856-1.869 1.8c-0.206 0.206-0.381 0.381-0.781 0.381l0.275-3.944 7.181-6.488c0.313-0.275-0.069-0.431-0.482-0.156l-8.875 5.587-3.825-1.194c-0.831-0.262-0.85-0.831 0.175-1.231l14.944-5.763c0.694-0.25 1.3 0.169 1.075 1.219z"/>
+                    </svg>
+                </a>
+                <div class="theme">
+                    <svg class="changeTheme" data-theme="light" style="display: none" width="30" height="30"
+                         viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path class="dark-color-icon"
                                 d="M15 22.87A7.87 7.87 0 0 0 22.87 15 7.87 7.87 0 0 0 15 7.13 7.87 7.87 0 0 0 7.13 15 7.87 7.87 0 0 0 15 22.87Zm0-17.361c.463 0 .926-.347.926-.926V3.426c0-.463-.347-.926-.926-.926-.579 0-.926.463-.926.926v1.157c0 .463.463.926.926.926Zm0 18.982c-.463 0-.926.347-.926.926v1.157c0 .463.347.926.926.926.579 0 .926-.347.926-.926v-1.157c0-.463-.463-.926-.926-.926Zm11.574-10.417h-1.157c-.463 0-.926.347-.926.926 0 .579.347.926.926.926h1.157c.463 0 .926-.347.926-.926 0-.579-.463-.926-.926-.926Zm-21.991 0H3.426c-.463 0-.926.347-.926.926 0 .579.347.926.926.926h1.157c.463 0 .926-.347.926-.926 0-.579-.463-.926-.926-.926Zm17.94-7.87-.81.81a.908.908 0 0 0 0 1.273.883.883 0 0 0 .579.232.88.88 0 0 0 .578-.232l.811-.81a.908.908 0 0 0 0-1.273c-.348-.347-.811-.347-1.158 0ZM7.014 21.713l-.81.81a.907.907 0 0 0 0 1.273.88.88 0 0 0 .578.232.883.883 0 0 0 .579-.232l.81-.81a.908.908 0 0 0 0-1.273c-.231-.347-.81-.347-1.157 0Zm15.972 0a.908.908 0 0 0-1.273 0 .908.908 0 0 0 0 1.273l.81.81a.883.883 0 0 0 .579.232.885.885 0 0 0 .579-.232.908.908 0 0 0 0-1.273l-.695-.81ZM7.014 8.287a.883.883 0 0 0 .579.232c.231 0 .463-.116.694-.232a.908.908 0 0 0 0-1.273l-.81-.81a.908.908 0 0 0-1.273 0 .907.907 0 0 0 0 1.273l.81.81Z"
-                                fill="#fff" />
-                        </svg>
-
-                        
-                        <svg class="changeTheme" data-theme="dark" style="display: block"  width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
+                                fill="#fff"/>
+                    </svg>
+                    <svg class="changeTheme" data-theme="dark" style="display: block" width="30" height="30"
+                         viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
                                 d="M15 22.87A7.87 7.87 0 0 0 22.87 15 7.87 7.87 0 0 0 15 7.13 7.87 7.87 0 0 0 7.13 15 7.87 7.87 0 0 0 15 22.87Zm0-17.361c.463 0 .926-.347.926-.926V3.426c0-.463-.347-.926-.926-.926-.579 0-.926.463-.926.926v1.157c0 .463.463.926.926.926Zm0 18.982c-.463 0-.926.347-.926.926v1.157c0 .463.347.926.926.926.579 0 .926-.347.926-.926v-1.157c0-.463-.463-.926-.926-.926Zm11.574-10.417h-1.157c-.463 0-.926.347-.926.926 0 .579.347.926.926.926h1.157c.463 0 .926-.347.926-.926 0-.579-.463-.926-.926-.926Zm-21.991 0H3.426c-.463 0-.926.347-.926.926 0 .579.347.926.926.926h1.157c.463 0 .926-.347.926-.926 0-.579-.463-.926-.926-.926Zm17.94-7.87-.81.81a.908.908 0 0 0 0 1.273.883.883 0 0 0 .579.232.88.88 0 0 0 .578-.232l.811-.81a.908.908 0 0 0 0-1.273c-.348-.347-.811-.347-1.158 0ZM7.014 21.713l-.81.81a.907.907 0 0 0 0 1.273.88.88 0 0 0 .578.232.883.883 0 0 0 .579-.232l.81-.81a.908.908 0 0 0 0-1.273c-.231-.347-.81-.347-1.157 0Zm15.972 0a.908.908 0 0 0-1.273 0 .908.908 0 0 0 0 1.273l.81.81a.883.883 0 0 0 .579.232.885.885 0 0 0 .579-.232.908.908 0 0 0 0-1.273l-.695-.81ZM7.014 8.287a.883.883 0 0 0 .579.232c.231 0 .463-.116.694-.232a.908.908 0 0 0 0-1.273l-.81-.81a.908.908 0 0 0-1.273 0 .907.907 0 0 0 0 1.273l.81.81Z"
-                                fill="#030D45" />
-                        </svg>
+                                fill="#666666"/>
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+    </header>
+    <main class="main" id="main_top">
+        <div class="main__container">
+            <section class="main__top">
+                <div class="main__top__content">
+                    <div>
+                        <p class="main__top--text">
+                            {% trans 'Hi' %} <img class="main__top-hello-img"
+                                                  src="{% static 'PortfolioApp/img/head/hello.png' %}"/>,
+                        </p>
+                        <p class="main__top--text">{% trans 'My name is' %}</p>
+                        <p class="main__top--text top--text__style">{% trans 'Dmitry' %}</p>
+                        <p class="main__top--text">{% trans 'I am developing websites' %}</p>
+                    </div>
+                    <div class="main__top-avatar">
+                        <img class="main__top-avatar__img" src="{% static 'PortfolioApp/img/head/avatar.jpg' %}">
                     </div>
                 </div>
-
-            </div>
-        </header>
-        <main class="main" id="main_top">
-            <div class="main__container">
-                <section class="main__top">
-                    <div class="main__top__content">
-                        <div>
-                            <p class="main__top--text">
-                                Hi <img class="main__top-hello-img"
-                                    src="{% static 'PortfolioApp/img/head/hello.png' %}" />,
-                            </p>
-                            <p class="main__top--text">My name is</p>
-                            <p class="main__top--text top--text__style">Dmytro</p>
-                            <p class="main__top--text">I am developing websites</p>
-                        </div>
-                        <div class="main__top-avatar">
-                            <img class="main__top-avatar__img" src="{% static 'PortfolioApp/img/head/avatar.jpg' %}">
-                        </div>
-                    </div>
-                </section>
-                {% if langs.count >= 1 %}
+            </section>
+            {% if langs.count >= 1 %}
                 <section class="main__body" id="tech_stack">
-                    <div class="main__body__title">My Tech Stack</div>
+                    <div class="main__body__title">{% trans 'My Tech Stack' %}</div>
                     <div class="main__body__subtitle">
-                        Technologies I work with
+                        {% trans 'Technologies I work with' %}
                     </div>
                     <div class="main__body__tech-stack">
                         <ul class="main__body__list">
                             {% for lang in langs %}
-                            {% if lang.icon_svg %}
-                            <li class="main__body__item">
-                                {{ lang.icon_svg|safe }}
-                            </li>
-                            {% endif %}
+                                {% if lang.icon_svg %}
+                                    <li class="main__body__item">
+                                        {{ lang.icon_svg|safe }}
+                                    </li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
                 </section>
-                {% endif %}
-                {% if projects.count >= 1 %}
+            {% endif %}
+            {% if projects.count >= 1 %}
                 <section class="main__bottom" id="projects">
-                    <p class="main__bottom-title">Projects list</p>
-                    <p class="main__bottom-subtitle">Recent projects created by me</p>
+                    <p class="main__bottom-title">{% trans 'Projects list' %}</p>
+                    <p class="main__bottom-subtitle">{% trans 'Recent projects created by me' %}</p>
                     <ul class="main__bottom-projects">
                         {% for project in projects %}
-                        <li class="main__bottom--project">
-                            <div class="main__bottom--project--top">
-                                <div class="main__bottom-img-project">
-                                    <img src="{{ project.image.url }}" />
-                                </div>
-                                <div class="main__bottom-content-project">
-                                    <div class="main__bottom-text-project">
-                                        <p class="main__bottom-text-title">{{ project.title }}</p>
-                                        <p class="main__bottom-text-subtitle">
-                                            {{ project.desc|safe }}
-                                        </p>
-                                        <p class="main__bottom-text-tech-stack">
-                                            Tech stack :<span class="main__bottom-text-tech-stack--span">
+                            <li class="main__bottom--project">
+                                <div class="main__bottom--project--top">
+                                    <div class="main__bottom-img-project">
+                                        <img src="{{ project.image.url }}"/>
+                                    </div>
+                                    <div class="main__bottom-content-project">
+                                        <div class="main__bottom-text-project">
+                                            <p class="main__bottom-text-title">{{ project.title }}</p>
+                                            <p class="main__bottom-text-subtitle">
+                                                {{ project.desc|safe }}
+                                            </p>
+                                            <p class="main__bottom-text-tech-stack">
+                                                {% trans 'Tech stack' %} :<span
+                                                    class="main__bottom-text-tech-stack--span">
                                                 {% for techs in project.techs_tack.all %}
-                                                {{ techs.title|title }},
+                                                    {{ techs.title|title }},
                                                 {% endfor %}</span>
-                                        </p>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="main__bottom__link-box">
-                                <div class="main__bottom-link-project">
-                                    <a class="main__bottom-first-link" href="#">
-                                        <svg class="dark-background" width="20" height="20" viewBox="0 0 20 20"
-                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M11.2867 8.7133C10.6041 8.031 9.67846 7.64771 8.71334 7.64771C7.74821 7.64771 6.82259 8.031 6.14 8.7133L3.56584 11.2866C2.88324 11.9692 2.49976 12.895 2.49976 13.8604C2.49976 14.8257 2.88324 15.7515 3.56584 16.4341C4.24844 17.1167 5.17424 17.5002 6.13959 17.5002C7.10493 17.5002 8.03074 17.1167 8.71334 16.4341L10 15.1475"
-                                                stroke="black" stroke-width="1.66667" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                            <path
-                                                d="M8.71332 11.2867C9.39591 11.969 10.3215 12.3523 11.2867 12.3523C12.2518 12.3523 13.1774 11.969 13.86 11.2867L16.4342 8.71334C17.1168 8.03074 17.5002 7.10493 17.5002 6.13959C17.5002 5.17424 17.1168 4.24844 16.4342 3.56584C15.7516 2.88324 14.8257 2.49976 13.8604 2.49976C12.8951 2.49976 11.9693 2.88324 11.2867 3.56584L9.99998 4.8525"
-                                                stroke="black" stroke-width="1.66667" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                        <p>Live Preview</p>
-                                    </a>
-                                    {% if project.url %}
-                                    <a class="main__bottom-second-link" href="{{ project.url }}">
-                                        <svg class="dark-background-color" width="20" height="20" viewBox="0 0 20 20"
-                                            fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <g clip-path="url(#clip0_10_90)">
-                                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                                    d="M10 0C4.475 0 0 4.475 0 10C0 14.425 2.8625 18.1625 6.8375 19.4875C7.3375 19.575 7.525 19.275 7.525 19.0125C7.525 18.775 7.5125 17.9875 7.5125 17.15C5 17.6125 4.35 16.5375 4.15 15.975C4.0375 15.6875 3.55 14.8 3.125 14.5625C2.775 14.375 2.275 13.9125 3.1125 13.9C3.9 13.8875 4.4625 14.625 4.65 14.925C5.55 16.4375 6.9875 16.0125 7.5625 15.75C7.65 15.1 7.9125 14.6625 8.2 14.4125C5.975 14.1625 3.65 13.3 3.65 9.475C3.65 8.3875 4.0375 7.4875 4.675 6.7875C4.575 6.5375 4.225 5.5125 4.775 4.1375C4.775 4.1375 5.6125 3.875 7.525 5.1625C8.325 4.9375 9.175 4.825 10.025 4.825C10.875 4.825 11.725 4.9375 12.525 5.1625C14.4375 3.8625 15.275 4.1375 15.275 4.1375C15.825 5.5125 15.475 6.5375 15.375 6.7875C16.0125 7.4875 16.4 8.375 16.4 9.475C16.4 13.3125 14.0625 14.1625 11.8375 14.4125C12.2 14.725 12.5125 15.325 12.5125 16.2625C12.5125 17.6 12.5 18.675 12.5 19.0125C12.5 19.275 12.6875 19.5875 13.1875 19.4875C15.1726 18.8173 16.8976 17.5414 18.1197 15.8395C19.3418 14.1375 19.9994 12.0952 20 10C20 4.475 15.525 0 10 0Z"
-                                                    fill="black" />
-                                            </g>
-                                            <defs>
-                                                <clipPath id="clip0_10_90">
-                                                    <rect width="20" height="20" fill="white" />
-                                                </clipPath>
-                                            </defs>
-                                        </svg>
-                                        <p>View Code</p>
-                                    </a>
-                                    {% endif %}
+                                <div class="main__bottom__link-box">
+                                    <div class="main__bottom-link-project">
+                                        <a class="main__bottom-first-link" href="#">
+                                            <svg class="dark-background" width="20" height="20" viewBox="0 0 20 20"
+                                                 fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                        d="M11.2867 8.7133C10.6041 8.031 9.67846 7.64771 8.71334 7.64771C7.74821 7.64771 6.82259 8.031 6.14 8.7133L3.56584 11.2866C2.88324 11.9692 2.49976 12.895 2.49976 13.8604C2.49976 14.8257 2.88324 15.7515 3.56584 16.4341C4.24844 17.1167 5.17424 17.5002 6.13959 17.5002C7.10493 17.5002 8.03074 17.1167 8.71334 16.4341L10 15.1475"
+                                                        stroke="black" stroke-width="1.66667" stroke-linecap="round"
+                                                        stroke-linejoin="round"/>
+                                                <path
+                                                        d="M8.71332 11.2867C9.39591 11.969 10.3215 12.3523 11.2867 12.3523C12.2518 12.3523 13.1774 11.969 13.86 11.2867L16.4342 8.71334C17.1168 8.03074 17.5002 7.10493 17.5002 6.13959C17.5002 5.17424 17.1168 4.24844 16.4342 3.56584C15.7516 2.88324 14.8257 2.49976 13.8604 2.49976C12.8951 2.49976 11.9693 2.88324 11.2867 3.56584L9.99998 4.8525"
+                                                        stroke="black" stroke-width="1.66667" stroke-linecap="round"
+                                                        stroke-linejoin="round"/>
+                                            </svg>
+                                            <p>{% trans 'Live Preview' %}</p>
+                                        </a>
+                                        {% if project.url %}
+                                            <a class="main__bottom-second-link" href="{{ project.url }}">
+                                                <svg class="dark-background-color" width="20" height="20"
+                                                     viewBox="0 0 20 20"
+                                                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#clip0_10_90)">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                              d="M10 0C4.475 0 0 4.475 0 10C0 14.425 2.8625 18.1625 6.8375 19.4875C7.3375 19.575 7.525 19.275 7.525 19.0125C7.525 18.775 7.5125 17.9875 7.5125 17.15C5 17.6125 4.35 16.5375 4.15 15.975C4.0375 15.6875 3.55 14.8 3.125 14.5625C2.775 14.375 2.275 13.9125 3.1125 13.9C3.9 13.8875 4.4625 14.625 4.65 14.925C5.55 16.4375 6.9875 16.0125 7.5625 15.75C7.65 15.1 7.9125 14.6625 8.2 14.4125C5.975 14.1625 3.65 13.3 3.65 9.475C3.65 8.3875 4.0375 7.4875 4.675 6.7875C4.575 6.5375 4.225 5.5125 4.775 4.1375C4.775 4.1375 5.6125 3.875 7.525 5.1625C8.325 4.9375 9.175 4.825 10.025 4.825C10.875 4.825 11.725 4.9375 12.525 5.1625C14.4375 3.8625 15.275 4.1375 15.275 4.1375C15.825 5.5125 15.475 6.5375 15.375 6.7875C16.0125 7.4875 16.4 8.375 16.4 9.475C16.4 13.3125 14.0625 14.1625 11.8375 14.4125C12.2 14.725 12.5125 15.325 12.5125 16.2625C12.5125 17.6 12.5 18.675 12.5 19.0125C12.5 19.275 12.6875 19.5875 13.1875 19.4875C15.1726 18.8173 16.8976 17.5414 18.1197 15.8395C19.3418 14.1375 19.9994 12.0952 20 10C20 4.475 15.525 0 10 0Z"
+                                                              fill="black"/>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_10_90">
+                                                            <rect width="20" height="20" fill="white"/>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                                <p>{% trans 'View Code' %}</p>
+                                            </a>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
                         {% endfor %}
                     </ul>
                 </section>
-                {% endif %}
-                <section class="main__contact" id="contact">
-                    <p class="main__contact-title main__contact-title-dark">For any questions write to me:</p>
-                    <p class="main__contact-subtitle"><a href="mailto:loading4512@gmail.com">loading4512@gmail.com</a>
-                    </p>
-                </section>
-            </div>
-        </main>
-        <footer class="footer">
-            <div class="footer__container">
-                <section class="footer__top">
-                    <a class="footer__top--logo" href="index.html">
-                        <img src="{% static 'PortfolioApp/img/head/logo2.svg' %}">
+            {% endif %}
+            <section class="main__contact" id="contact">
+                <p class="main__contact-title main__contact-title-dark">{% trans 'For any questions write to me' %}:</p>
+                <p class="main__contact-subtitle"><a href="mailto:loading4512@gmail.com">loading4512@gmail.com</a>
+                </p>
+            </section>
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="footer__container">
+            <section class="footer__top">
+                <a class="footer__top--logo" href="index.html">
+                    <img src="{% static 'PortfolioApp/img/head/logo2.svg' %}">
+                </a>
+                <div class="footer__top--contacts">
+                    <a class="footer__top--contacts-phone footer__top--contacts-phone-dark"
+                       href="tel:+380932367047">+380 (93) 236 7047</a>
+                    <a class="footer__top--contacts-email footer__top--contacts-phone-dark"
+                       href="mailto:loading4512@gmail.com">loading4512@gmail.com</a>
+                </div>
+                <div class="footer__top--icon">
+                    <a class="footer__top--icon-a" href="https://github.com/maybe-my">
+                        <svg class="dark-color-icon" width="30" height="30" viewBox="0 0 30 30" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                  d="M15 0C6.7125 0 0 6.7125 0 15C0 21.6375 4.29375 27.2437 10.2563 29.2313C11.0063 29.3625 11.2875 28.9125 11.2875 28.5188C11.2875 28.1625 11.2688 26.9813 11.2688 25.725C7.5 26.4188 6.525 24.8062 6.225 23.9625C6.05625 23.5312 5.325 22.2 4.6875 21.8438C4.1625 21.5625 3.4125 20.8687 4.66875 20.85C5.85 20.8313 6.69375 21.9375 6.975 22.3875C8.325 24.6562 10.4812 24.0187 11.3438 23.625C11.475 22.65 11.8688 21.9937 12.3 21.6187C8.9625 21.2437 5.475 19.95 5.475 14.2125C5.475 12.5813 6.05625 11.2313 7.0125 10.1813C6.8625 9.80625 6.3375 8.26875 7.1625 6.20625C7.1625 6.20625 8.41875 5.8125 11.2875 7.74375C12.4875 7.40625 13.7625 7.2375 15.0375 7.2375C16.3125 7.2375 17.5875 7.40625 18.7875 7.74375C21.6562 5.79375 22.9125 6.20625 22.9125 6.20625C23.7375 8.26875 23.2125 9.80625 23.0625 10.1813C24.0188 11.2313 24.6 12.5625 24.6 14.2125C24.6 19.9688 21.0938 21.2437 17.7563 21.6187C18.3 22.0875 18.7688 22.9875 18.7688 24.3937C18.7688 26.4 18.75 28.0125 18.75 28.5188C18.75 28.9125 19.0312 29.3813 19.7812 29.2313C22.759 28.2259 25.3465 26.3121 27.1796 23.7592C29.0127 21.2063 29.9991 18.1429 30 15C30 6.7125 23.2875 0 15 0Z"
+                                  fill="#42446E"/>
+                        </svg>
                     </a>
-                    <div class="footer__top--contacts">
-                        <a class="footer__top--contacts-phone footer__top--contacts-phone-dark"
-                            href="tel:+380932367047">+380 (93) 236 7047</a>
-                        <a class="footer__top--contacts-email footer__top--contacts-phone-dark"
-                            href="mailto:loading4512@gmail.com">loading4512@gmail.com</a>
-                    </div>
-                    <div class="footer__top--icon">
-                        <a class="footer__top--icon-a" href="https://github.com/maybe-my">
-                            <svg class="dark-color-icon" width="30" height="30" viewBox="0 0 30 30" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M15 0C6.7125 0 0 6.7125 0 15C0 21.6375 4.29375 27.2437 10.2563 29.2313C11.0063 29.3625 11.2875 28.9125 11.2875 28.5188C11.2875 28.1625 11.2688 26.9813 11.2688 25.725C7.5 26.4188 6.525 24.8062 6.225 23.9625C6.05625 23.5312 5.325 22.2 4.6875 21.8438C4.1625 21.5625 3.4125 20.8687 4.66875 20.85C5.85 20.8313 6.69375 21.9375 6.975 22.3875C8.325 24.6562 10.4812 24.0187 11.3438 23.625C11.475 22.65 11.8688 21.9937 12.3 21.6187C8.9625 21.2437 5.475 19.95 5.475 14.2125C5.475 12.5813 6.05625 11.2313 7.0125 10.1813C6.8625 9.80625 6.3375 8.26875 7.1625 6.20625C7.1625 6.20625 8.41875 5.8125 11.2875 7.74375C12.4875 7.40625 13.7625 7.2375 15.0375 7.2375C16.3125 7.2375 17.5875 7.40625 18.7875 7.74375C21.6562 5.79375 22.9125 6.20625 22.9125 6.20625C23.7375 8.26875 23.2125 9.80625 23.0625 10.1813C24.0188 11.2313 24.6 12.5625 24.6 14.2125C24.6 19.9688 21.0938 21.2437 17.7563 21.6187C18.3 22.0875 18.7688 22.9875 18.7688 24.3937C18.7688 26.4 18.75 28.0125 18.75 28.5188C18.75 28.9125 19.0312 29.3813 19.7812 29.2313C22.759 28.2259 25.3465 26.3121 27.1796 23.7592C29.0127 21.2063 29.9991 18.1429 30 15C30 6.7125 23.2875 0 15 0Z"
-                                    fill="#42446E" />
-                            </svg>
-                        </a>
-                        <a class="footer__top--icon-a" href="https://t.me/super_userz">
-                            <svg width="30" height="30" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                <path class="dark-color-icon" fill="#42446E"
-                                    d="M16 0.5c-8.563 0-15.5 6.938-15.5 15.5s6.938 15.5 15.5 15.5c8.563 0 15.5-6.938 15.5-15.5s-6.938-15.5-15.5-15.5zM23.613 11.119l-2.544 11.988c-0.188 0.85-0.694 1.056-1.4 0.656l-3.875-2.856-1.869 1.8c-0.206 0.206-0.381 0.381-0.781 0.381l0.275-3.944 7.181-6.488c0.313-0.275-0.069-0.431-0.482-0.156l-8.875 5.587-3.825-1.194c-0.831-0.262-0.85-0.831 0.175-1.231l14.944-5.763c0.694-0.25 1.3 0.169 1.075 1.219z" />
-                            </svg>
-                        </a>
-                    </div>
-                </section>
-            </div>
-        </footer>
-    </div>
-    <script>
-        let changeThemeButtons = document.querySelectorAll('.changeTheme');
+                    <a class="footer__top--icon-a" href="https://t.me/super_userz">
+                        <svg width="30" height="30" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                            <path class="dark-color-icon" fill="#42446E"
+                                  d="M16 0.5c-8.563 0-15.5 6.938-15.5 15.5s6.938 15.5 15.5 15.5c8.563 0 15.5-6.938 15.5-15.5s-6.938-15.5-15.5-15.5zM23.613 11.119l-2.544 11.988c-0.188 0.85-0.694 1.056-1.4 0.656l-3.875-2.856-1.869 1.8c-0.206 0.206-0.381 0.381-0.781 0.381l0.275-3.944 7.181-6.488c0.313-0.275-0.069-0.431-0.482-0.156l-8.875 5.587-3.825-1.194c-0.831-0.262-0.85-0.831 0.175-1.231l14.944-5.763c0.694-0.25 1.3 0.169 1.075 1.219z"/>
+                        </svg>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </footer>
+</div>
+<script>
+    let changeThemeButtons = document.querySelectorAll('.changeTheme');
 
-        changeThemeButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                let theme = this.dataset.theme;
-                applyTheme(theme);
-            });
+    changeThemeButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            let theme = this.dataset.theme;
+            applyTheme(theme);
         });
+    });
 
-        function applyTheme(themeName) {
-            let path = themeName === "dark" ? "{% static 'PortfolioApp/css/theme-dark.css' %}" : "{% static 'PortfolioApp/css/theme-light.css' %}";
+    function applyTheme(themeName) {
+        let path = themeName === "dark" ? "{% static 'PortfolioApp/css/theme-dark.css' %}" : "{% static 'PortfolioApp/css/theme-light.css' %}";
 
-            document.querySelector('[title="theme"]').setAttribute('href', path);
-            changeThemeButtons.forEach(button => {
-                button.style.display = 'block';
-            });
-            document.querySelector(`[data-theme="${themeName}"]`).style.display = 'none';
-            localStorage.setItem('theme', themeName);
-        }
+        document.querySelector('[title="theme"]').setAttribute('href', path);
+        changeThemeButtons.forEach(button => {
+            button.style.display = 'block';
+        });
+        document.querySelector(`[data-theme="${themeName}"]`).style.display = 'none';
+        localStorage.setItem('theme', themeName);
+    }
 
-        let activeTheme = localStorage.getItem('theme'); // Проверяем есть ли в LocalStorage записано значение для 'theme' и присваиваем его переменной.
+    let activeTheme = localStorage.getItem('theme'); // Проверяем есть ли в LocalStorage записано значение для 'theme' и присваиваем его переменной.
 
-        if (activeTheme === null || activeTheme === 'light') { // Если значение не записано, или оно равно 'light' - применяем светлую тему
-            applyTheme('light');
-        } else if (activeTheme === 'dark') { // Если значение равно 'dark' - применяем темную
-            applyTheme('dark');
-        }
-    </script>
-    <script src="{% static 'PortfolioApp/scripts/main.js' %}"></script>
+    if (activeTheme === null || activeTheme === 'light') { // Если значение не записано, или оно равно 'light' - применяем светлую тему
+        applyTheme('light');
+    } else if (activeTheme === 'dark') { // Если значение равно 'dark' - применяем темную
+        applyTheme('dark');
+    }
+</script>
+<script src="{% static 'PortfolioApp/scripts/main.js' %}"></script>
 
 </body>
 

@@ -87,7 +87,7 @@ html {
 
 /* ----------------------------------------------------------------------- */
 
-.header { 
+.header {
     width: 100%;
     justify-content: center;
     position: fixed;
@@ -108,6 +108,9 @@ html {
 
 .header__list {
     display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .header__item {
@@ -124,6 +127,7 @@ html {
     font-weight: 500;
     font-size: 20px;
     color: #666666;
+    background: none;
 }
 
 .header__group-icon {
@@ -543,7 +547,7 @@ html {
         margin: 0;
         margin-top: 50px;
     }
-    
+
     .header__container {
         position: absolute;
         top: 0;
@@ -567,6 +571,7 @@ html {
     }
 
     .header__list {
+        transition: .3s all;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -654,6 +659,7 @@ html {
 
     .main__top__content {
         flex-direction: column;
+        justify-content: center;
         align-items: center;
     }
 

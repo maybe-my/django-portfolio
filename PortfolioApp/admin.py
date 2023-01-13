@@ -7,7 +7,7 @@ from django.utils.html import mark_safe
 @admin.register(Project)
 class AuthorAdmin(ImportExportModelAdmin):
     list_display = ('id', 'title', 'url', 'created_at')
-    list_filter = ('created_at',)
+    list_filter = ('created_at', 'techs_tack',)
     list_display_links = ('id', 'title',)
     list_per_page = 100
     list_max_show_all = 10
